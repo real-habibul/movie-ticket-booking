@@ -4,15 +4,18 @@
     <div
       class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 rounded-lg overflow-hidden shadow-lg p-4"
     >
-      <!-- <router-link :to="{ name: 'movie-detail', params: { imdbID: movie.imdbID } }"> -->
-      <div v-for="movie in movies" :key="movie.imdbID" class="bg-slate-100 p-1">
-        <img :src="movie.Poster" alt="Movie Poster" class="w-full" />
-        <div class="px-6 py-4">
-          <div class="font-bold text-xl mb-2">{{ movie.Title }}</div>
-          <!-- <p class="text-gray-700 text-base">{{ movie.Year }}</p> -->
+      <router-link
+        v-for="movie in movies"
+        :key="movie.imdbID"
+        :to="{ name: 'movie-detail', params: { id: movie.imdbID } }"
+      >
+        <div class="bg-slate-100 p-1">
+          <img :src="movie.Poster" alt="Movie Poster" class="w-full" />
+          <div class="px-6 py-4">
+            <div class="font-bold text-xl mb-2">{{ movie.Title }}</div>
+          </div>
         </div>
-      </div>
-      <!-- </router-link> -->
+      </router-link>
     </div>
   </div>
 </template>
@@ -31,8 +34,6 @@ export default defineComponent({
     onMounted(() => {
       moviesStore.fetchMovies()
     })
-
-    console.log('moviesStore', moviesStore)
 
     return {
       movies
