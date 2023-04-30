@@ -3,7 +3,7 @@
     <div class="flex items-center justify-center pt-4">
       <h2 class="text-2xl font-bold ml-2">Select Seat</h2>
     </div>
-    <div class="flex flex-col md:flex-row justify-start items-start">
+    <div class="flex flex-col md:flex-row justify-start items-center">
       <span class="absolute top-5 left-2">
         <IconBack class="h-7 w-7" />
       </span>
@@ -20,7 +20,7 @@
                 'bg-blue-500': seat.isSelected,
                 'bg-green-500': seat.isBooked
               }"
-              class="seat py-2 px-4 rounded w-20 text-center border border-solid border-gray-400 m-auto"
+              class="seat py-2 px-4 rounded sm:w-20 text-center border border-solid border-gray-400 m-auto"
             >
               {{ seat.id }}
             </div>
