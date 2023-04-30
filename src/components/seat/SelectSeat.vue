@@ -48,9 +48,6 @@
       </div>
     </div>
   </div>
-  <pre>
-    {{ seats }}
-  </pre>
 </template>
 
 <script>
@@ -85,7 +82,7 @@ export default defineComponent({
         const selectedSeats = seats.filter((seat) => seat.isSelected)
         seatStore.setBookingMovie(imdbID.value, selectedSeats)
 
-        router.push({ name: 'movie-list' })
+        router.push({ name: 'history' })
       } catch (error) {
         console.log(error)
       }

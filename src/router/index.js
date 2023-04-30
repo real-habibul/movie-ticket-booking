@@ -18,6 +18,11 @@ const router = createRouter({
       name: 'select-seat',
       component: () => import('../components/seat/SelectSeat.vue')
     },
+    {
+      path: '/history',
+      name: 'history',
+      component: () => import('../components/history/History.vue')
+    }
   ]
 })
 
