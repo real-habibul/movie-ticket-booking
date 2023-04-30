@@ -19,7 +19,8 @@
           <div class="flex w-full justify-center md:justify-start pt-2">
             <button
               class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
-            >
+              @click="goToSelectSeat()"
+              >
               Book
             </button>
           </div>
@@ -34,7 +35,7 @@ import { defineComponent, onMounted, computed } from 'vue'
 import { useMoviesStore } from '@/stores/movie'
 import { useRoute } from 'vue-router'
 
-import IconBack from '@/components/movie/icon/IconBack.vue'
+import IconBack from '@/components/icon/IconBack.vue'
 
 export default defineComponent({
   name: 'MovieDetail',
@@ -56,6 +57,16 @@ export default defineComponent({
   },
   components: {
     IconBack
+  },
+  methods: {
+    goToSelectSeat() {
+      this.$router.push({
+        name: 'select-seat',
+        params: {
+          id: this.imdbID,
+        }
+      })
+    }
   }
 })
 </script>

@@ -12,7 +12,12 @@ const router = createRouter({
       path: '/movie-detail/:id',
       name: 'movie-detail',
       component: () => import('../components/movie/MovieDetail.vue')
-    }
+    },
+    {
+      path: '/select-seat/:id',
+      name: 'select-seat',
+      component: () => import('../components/seat/SelectSeat.vue')
+    },
   ]
 })
 
