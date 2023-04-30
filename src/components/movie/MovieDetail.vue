@@ -60,7 +60,6 @@ export default defineComponent({
   },
   methods: {
     goToSelectSeat() {
-      console.log('goToSelectSeat')
       this.$router.push({
         name: 'select-seat',
         params: {

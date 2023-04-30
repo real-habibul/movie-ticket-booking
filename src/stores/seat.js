@@ -4,7 +4,8 @@ import axios from 'axios'
 
 export const useSeatStore = defineStore('seat', {
   state: () => ({
-    seats: []
+    seats: [],
+    maxAvailableSeats: null
   }),
   actions: {
     generateSeats() {
@@ -28,11 +29,25 @@ export const useSeatStore = defineStore('seat', {
       this.fetchSeats()
     },
 
-    selectSeat(id, imdbID) {
+    selectSeat(id, imdbID, numSeats) {
       const seat = this.seats.find((seat) => seat.id === id)
-      seat.isSelected = !seat.isSelected
       const selectedSeats = this.seats.filter((seat) => seat.isSelected)
-      localStorage.setItem(imdbID, JSON.stringify(selectedSeats))
+      const countSelectedSeats = selectedSeats.filter((seat) => !seat.isBooked).length
+
+      if (seat.isSelected && !seat.isBooked) {
+        console.log('cancel seat : ' + seat.id)
+        seat.isSelected = !seat.isSelected
+        localStorage.setItem(imdbID, JSON.stringify(selectedSeats))
+        return
+      } 
+      if (countSelectedSeats >= numSeats) {
+        alert(`You can only select ${numSeats} seats`)
+        return
+      } else {
+        seat.isSelected = !seat.isSelected
+        localStorage.setItem(imdbID, JSON.stringify(selectedSeats))
+        console.log('select seat : ' + seat.id)
+      }
     },
 
     async fetchSeats(id = null) {
@@ -78,7 +93,27 @@ export const useSeatStore = defineStore('seat', {
 
         localStorage.setItem(id, JSON.stringify(selectedSeats))
       })
-      
+    },
+
+    availableSeats() {
+      let count = 0
+      this.seats.forEach((seat) => {
+        if (!seat.isBooked) {
+          count++
+        }
+      })
+      this.maxAvailableSeats = count
+    },
+
+    resetSeats(id) {
+      const selectedSeats = JSON.parse(localStorage.getItem(id))
+      this.seats.forEach((seat) => {
+        if (!seat.isBooked && seat.isSelected) {
+          seat.isSelected = false
+          localStorage.setItem(id, JSON.stringify(selectedSeats))
+        }
+      })
     }
+      
   }
 })

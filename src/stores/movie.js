@@ -12,7 +12,6 @@ export const useMoviesStore = defineStore('movies', {
       try {
         const response = await fetch('https://www.omdbapi.com/?s=Guardians&apikey=31ccf49')
         const data = await response.json()
-        console.log(data)
         if (data.Search) {
           this.movies = data.Search.slice(0, 10)
         }

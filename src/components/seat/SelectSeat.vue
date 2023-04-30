@@ -17,8 +17,8 @@
           <div v-for="seat in seats" :key="seat.id" @click="selectSeat(seat.id)">
             <div
               :class="{
-                'bg-green-500': seat.isBooked,
-                'bg-blue-500': seat.isSelected
+                'bg-blue-500': seat.isSelected,
+                'bg-green-500': seat.isBooked
               }"
               class="seat py-2 px-4 rounded w-20 text-center border border-solid border-gray-400 m-auto"
             >
@@ -27,6 +27,17 @@
           </div>
         </div>
         <div class="w-full flex justify-center items-center mt-4">
+          <div class="mx-1 border border-solid border-gray-400 rounded p-1">
+            <select
+              v-model="numSeats.value"
+              name="num-seats"
+              id="num-seats"
+              class="w-12"
+              @change="resetSeats"
+            >
+              <option v-for="n in 5" :key="n" :value="n">{{ n }}</option>
+            </select>
+          </div>
           <button
             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
             @click="goToPayment()"
@@ -37,10 +48,13 @@
       </div>
     </div>
   </div>
+  <pre>
+    {{ seats }}
+  </pre>
 </template>
 
 <script>
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, watch, reactive } from 'vue'
 import { useSeatStore } from '@/stores/seat'
 import { useRoute, useRouter } from 'vue-router'
 
@@ -51,6 +65,9 @@ export default defineComponent({
   setup() {
     const seatStore = useSeatStore()
     seatStore.initSeats()
+    seatStore.availableSeats()
+
+    const numSeats = reactive({ value: 1 })
 
     const route = useRoute()
     const router = useRouter()
@@ -60,7 +77,7 @@ export default defineComponent({
     const seats = seatStore.seats
 
     const selectSeat = (id) => {
-      seatStore.selectSeat(id, imdbID.value)
+      seatStore.selectSeat(id, imdbID.value, numSeats.value)
     }
 
     const goToPayment = () => {
@@ -74,14 +91,21 @@ export default defineComponent({
       }
     }
 
+    const resetSeats = () => {
+      seatStore.resetSeats(imdbID.value)
+    }
+    
     return {
       seats,
       selectSeat,
-      goToPayment
+      goToPayment,
+      numSeats,
+      resetSeats,
     }
   },
   components: {
     IconBack
-  }
+  },
+  
 })
 </script>
