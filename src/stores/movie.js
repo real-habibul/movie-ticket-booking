@@ -29,6 +29,7 @@ export const useMoviesStore = defineStore('movies', {
           }
         })
         this.movieById = response.data
+        return response.data
       } catch (error) {
         console.error(error)
       }
